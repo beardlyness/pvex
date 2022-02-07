@@ -17,8 +17,8 @@
 # title            :PVEX.sh
 # description      :This script will make it super easy to setup a Proxmox HyperVisor Server with selected Addons.
 # contributors     :beard
-# date             :10-20-2021
-# version          :0.0.1 Alpha
+# date             :02-07-2022
+# version          :0.0.2 Alpha
 # os               :Debian (Bullseye - 11)
 # usage            :bash pvex.sh
 # notes            :If you have any questions email the maintainer: projects [AT] hacked [DOT] is
@@ -89,6 +89,7 @@
         echo """$PVE_URL""" > "$SOURCES_DIR"/pve-install-repo.list
         wget "$PVE_KEY" -O "$KEYS_DIR"/"$KEY_VER"
         chmod +r "$KEYS_DIR"/"$KEY_VER"
+        sha512sum "$KEYS_DIR"/"$KEY_VER"
     }
 
   # Function for Proxmox Install
@@ -117,7 +118,7 @@
     }
 
   # Installing key software to help
-    tools=( lsb-release wget curl apt-transport-https ca-certificates )
+    tools=( gnupg gnupg-utils dirmngr socat lsb-release wget ifupdown2 curl apt-transport-https ca-certificates )
       grab_eware=""
         for e in "${tools[@]}"; do
           if command -v "$e" > /dev/null 2>&1; then
